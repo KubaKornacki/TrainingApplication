@@ -45,6 +45,10 @@ namespace App_v2.Areas.Identity.Pages.Account.Manage
             public string Email { get; set; }
 
 
+            public bool PlanExample { get; set; }
+
+            public bool Sex { get; set; }
+
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -57,17 +61,17 @@ namespace App_v2.Areas.Identity.Pages.Account.Manage
 
             var userName = await _userManager.GetUserNameAsync(user);
             var email = await _userManager.GetEmailAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var planExample = user.PlanExample;
+            var sex = user.Sex;
 
             Username = userName;
 
             Input = new InputModel
             {
                 Email = email,
-
+                PlanExample = planExample,
+                Sex=sex
             };
-
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
 
             return Page();
         }
@@ -85,16 +89,19 @@ namespace App_v2.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var email = await _userManager.GetEmailAsync(user);
-            if (Input.Email != email)
+            user.Email = Input.Email;
+            user.PlanExample = Input.PlanExample;
+            user.Sex = Input.Sex;
+
+            var setResult = await _userManager.UpdateAsync(user);
+            if (!setResult.Succeeded)
             {
-                var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
-                if (!setEmailResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
-                }
+                var userId = await _userManager.GetUserIdAsync(user);
+                throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
             }
+            
+
+
 
 
             await _signInManager.RefreshSignInAsync(user);

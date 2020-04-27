@@ -18,13 +18,32 @@
             <div class="form-group">
                 <label asp-for="Input.Email">Email</label>
 
-                    <div class="input-group">
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                    </div>
+                <div class="input-group">
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                </div>
 
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Input.PlanExample">Plan z generatora</label>
+                <div class="form-check-label">
+                    <select asp-for="Input.PlanExample" class="form-control dropdown">
+                        <option value="false">Nie</option>
+                        <option value="true">Tak</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Sex">Płeć</label>
+                <div class="form-check-label">
+                    <select asp-for="Input.Sex" class="form-control dropdown">
+                        <option value="false">Mężczyzna</option>
+                        <option value="true">Kobieta</option>
+                    </select>
+                </div>
+            </div>
+
             <button id="update-profile-button" type="submit" class="btn btn-primary">Zapisz</button>
         </form>
     </div>
