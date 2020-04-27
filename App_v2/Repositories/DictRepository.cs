@@ -25,5 +25,6 @@ namespace App_v2.Repositories
         {
             return _db.Dicts.Where(x => x.DictName == name).ToList();
         }
+
     }
 }

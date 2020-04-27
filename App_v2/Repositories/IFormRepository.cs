@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace App_v2.Repositories
 {
-    public interface IDictRepository
+    public interface IFormRepository
     {
+        void CreateForm(Form form);
 
-         IEnumerable<Dict> GetDictsByName(string name);
+        void UpdateForm(Form form);
 
-        Dict GetDictById(int id);
-
-
+        Form GetUserForm(string id);
+       
     }
 }

@@ -15,6 +15,6 @@ namespace App_v2.Models
         }
 
         public DbSet<Dict> Dicts { get; set; }
-
+        public DbSet<Form> Forms { get; set; }
     }
 }
