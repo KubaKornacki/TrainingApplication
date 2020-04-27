@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using App_v2.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron  text-center">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="~/img/GorylLOGO.png" height="400" width="400" style="margin-right:0px;" />
+        </div>
+        <div class="col-md-6">
+
+            <br /><h1 class="display-4 ">Witaj</h1>
+            <h2 class="lead">Chcesz zacząć przygode z siłownią ale nie wiesz jak?</h2>
+            <h2 class="lead">Pozwól ,że zrobimy to za Ciebie!</h2>
+            <br />
+            @if (!SignInManager.IsSignedIn(User))
+            {
+                <a class="btn btn-primary btn-lg" id="register" asp-area="Identity" asp-page="/Account/Register">Rozpocznij</a>
+            }
+
+        </div>
+    </div>
+</div>

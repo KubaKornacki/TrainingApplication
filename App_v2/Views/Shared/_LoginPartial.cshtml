@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using App_v2.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div class="form-inline my-2 my-lg-0">
+            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" style="font-size:16px;" title="Manage">Witaj @UserManager.GetUserName(User)!</a>
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" style="font-size:16px;" class="nav-link btn btn-link text-light">Wyloguj</button>
+            </form>
+        </div>
+    }
+    else
+    {
+        <div class="form-inline my-2 my-lg-0">
+            <a class="nav-link btn btn-link text-light" style="font-size:16px;" id="login" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a>
+        </div>
+    }
+</ul>
