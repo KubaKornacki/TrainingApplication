@@ -9,10 +9,10 @@ namespace App_v2.Repositories
     public interface IDictRepository
     {
 
-         IEnumerable<Dict> GetDictsByName(string name);
+        IEnumerable<Dict> GetDictsByName(string name);
 
         Dict GetDictById(int id);
 
-
+        Dict GetDict(string name, int id);
     }
 }

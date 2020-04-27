@@ -15,6 +15,10 @@ namespace App_v2.Repositories
             _db = appDbContext;
         }
 
+        public Dict GetDict(string name, int id)
+        {
+            return _db.Dicts.FirstOrDefault(x => x.DictName == name && x.ID == id);
+        }
 
         public Dict GetDictById(int id)
         {

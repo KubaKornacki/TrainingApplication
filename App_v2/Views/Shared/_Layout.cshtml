@@ -38,9 +38,12 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-light" style="font-size:16px;" asp-area="" asp-controller="Home" asp-action="Form">Generator treningu</a>
-                            </li>
+                            if (UserManager.GetUserAsync(User).Result.PlanExample)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" style="font-size:16px;" asp-area="" asp-controller="Home" asp-action="Form">Generator treningu</a>
+                                </li>
+                            }
                         }
                         <li class="nav-item">
                             <a class="nav-link text-light" style="font-size:16px;" asp-area="" asp-controller="Exercises" asp-action="Index">Lista Ćwiczeń</a>
