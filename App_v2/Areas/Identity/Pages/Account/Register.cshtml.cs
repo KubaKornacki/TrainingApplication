@@ -40,20 +40,20 @@ namespace App_v2.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required (ErrorMessage ="Adres email jest wymagany")]
             [EmailAddress(ErrorMessage ="Adres email jest błędny")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "{0} musi mieć minimum {2} i maksimum {1} znaki długości", MinimumLength = 8)]
+            [Required(ErrorMessage = "Hasło jest wymagane")]
+            [StringLength(100, ErrorMessage = "{0} musi mieć minimum {2} i maksimum {1} znaków długości", MinimumLength = 8)]
             [DataType(DataType.Password)]
             [Display(Name = "Hasło")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Hasła nie są takie same.")]
             public string ConfirmPassword { get; set; }
         }
 
