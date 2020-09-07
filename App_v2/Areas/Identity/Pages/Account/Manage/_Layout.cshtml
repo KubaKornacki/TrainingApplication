@@ -1,22 +1,22 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
+<div class="jumbotron">
+    <h1 class="display-4">Zarządzanie kontem</h1>
 
-<h1>Zarządzanie kontem</h1>
-
-<div>
-    <h4>Zmień ustawienia swojego konta</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
-        </div>
-        <div class="col-md-9">
-            @RenderBody()
+    <div>
+        <h1 class="lead" style="font-size:1.5rem">Zmień ustawienia swojego konta</h1>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }

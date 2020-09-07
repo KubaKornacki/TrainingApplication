@@ -17,7 +17,7 @@ namespace App_v2.Repositories
 
         public Dict GetDict(string name, int id)
         {
-            return _db.Dicts.FirstOrDefault(x => x.DictName == name && x.ID == id);
+            return _db.Dicts.FirstOrDefault(x => x.DictName == name && x.intValue == id);
         }
 
         public Dict GetDictById(int id)
