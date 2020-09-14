@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Sukces";
+}
+
+<div class="jumbotron">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <h4 class="lead col-md-6" style="font-size:1.5rem">Pomyślnie wygenerowano trening.</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <p>Jeśli chcesz zobaczyć plan treningowy wybierz przycisk Plan treningowy</p>
+            <p></p>
+        </div>
+    </div>
+    <div>
+        <row>
+            <a class="btn btn-secondary btn-md" asp-controller="Home" asp-action="Index">Powrót do strony głównej</a>
+            
+            <a class="btn btn-primary btn-md" asp-controller="Home" asp-action="Index">Plan treningowy</a>
+        </row>
+        
+    </div>
+
+
+</div>

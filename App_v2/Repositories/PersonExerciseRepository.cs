@@ -17,6 +17,7 @@ namespace App_v2.Repositories
         public void AddPersonExercise(PersonExcercise personExercise)
         {
             _db.PeopleExercises.Add(personExercise);
+            _db.SaveChanges();
         }
 
         public IEnumerable<PersonExcercise> GetPersonExercises(AppUser user)

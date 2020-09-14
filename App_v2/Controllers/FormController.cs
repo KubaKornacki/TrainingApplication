@@ -18,11 +18,14 @@ namespace App_v2.Controllers
 
         private readonly IDictRepository _dictRepository;
 
-        public FormController(UserManager<AppUser> userManager, IFormRepository form, IDictRepository dict)
+        private readonly ITrainingRepository _trainingRepository;
+
+        public FormController(UserManager<AppUser> userManager, IFormRepository form, IDictRepository dict,ITrainingRepository training)
         {
             _userManager = userManager;
             _formRepository = form;
             _dictRepository = dict;
+            _trainingRepository = training;
         }
 
         //public IActionResult Index()
@@ -100,20 +103,24 @@ namespace App_v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TrainingType([Bind("TrainingKindId,TrainingTypeId")]TrainingTypeViewModel vm)
         {
-            //AppUser appUser = await _userManager.GetUserAsync(User);
+            AppUser appUser = await _userManager.GetUserAsync(User);
 
-            //form.User = appUser;
+            string trainingType=_dictRepository.GetDict("training_type", vm.TrainingTypeId).textValue;
 
-            //if (form.ID == 0)
-            //{
-            //    _formRepository.CreateForm(form);
-            //}
-            //else
-            //{
-            //    _formRepository.UpdateForm(form);
-            //}
+            Training training = new Training();
+            training.Active = true;
+            training.AppUser = appUser;
+            training.TrainingName = trainingType + " " + DateTime.Now.ToShortDateString();
 
-            return RedirectToAction("Index", "Home"); /*RedirectToAction("Index");*/
+            int trainingId= _trainingRepository.CreateTraining(training);
+
+            return RedirectToAction("Success", new {id=trainingId }); /*RedirectToAction("Index");*/
+        }
+
+        public IActionResult Success(int id)
+        {
+
+            return View(id);
         }
     }
 }

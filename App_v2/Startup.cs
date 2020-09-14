@@ -32,6 +32,7 @@ namespace App_v2
             services.AddTransient<IDictRepository, DictRepository>();
             services.AddTransient<IFormRepository, FormRepository>();
             services.AddTransient<IPersonExerciseRepository, PersonExerciseRepository>();
+            services.AddTransient<ITrainingRepository, TrainingRepository>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
