@@ -31,6 +31,7 @@ namespace App_v2
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IDictRepository, DictRepository>();
             services.AddTransient<IFormRepository, FormRepository>();
+            services.AddTransient<IPersonExerciseRepository, PersonExerciseRepository>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
