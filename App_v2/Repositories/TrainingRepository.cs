@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App_v2.Models;
+using App_v2.TrainingGenerator;
 
 namespace App_v2.Repositories
 {
@@ -20,11 +21,30 @@ namespace App_v2.Repositories
             throw new NotImplementedException();
         }
 
-        public int CreateTraining(Training training)
+        public Training CreateTraining(Training training,int trainingType)
         {
             _db.Trainings.Add(training);
+            
             _db.SaveChanges();
-            return _db.Trainings.OrderBy(x => x.ID).FirstOrDefault().ID;
+            Training trainingDb= _db.Trainings.OrderBy(x => x.ID).FirstOrDefault();
+            CreateTrainingExcercises(trainingDb,trainingType);
+            return trainingDb;
+        }
+
+        private void CreateTrainingExcercises(Training training,int trainingType)
+        {
+            Form form=_db.Forms.FirstOrDefault(x => x.User == training.AppUser);
+            FbwTraining fbwTraining= new FbwTraining();
+            PushPullTraining pushPullTraining = new PushPullTraining();
+            SplitTraining splitTraining = new SplitTraining();
+            fbwTraining.SetNext(pushPullTraining);
+            pushPullTraining.SetNext(splitTraining);
+
+            TrainingParameters trainingParameters = new TrainingParameters(training, trainingType, form.GoalID, form.TrainingCategoryID, form.FreeTimeID);
+
+            IEnumerable<TrainingExercise> exercises = fbwTraining.Generate(trainingParameters);
+
+
         }
 
         public Training GetTraining(Training training)

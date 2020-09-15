@@ -112,9 +112,12 @@ namespace App_v2.Controllers
             training.AppUser = appUser;
             training.TrainingName = trainingType + " " + DateTime.Now.ToShortDateString();
 
-            int trainingId= _trainingRepository.CreateTraining(training);
+            Training trainingDb= _trainingRepository.CreateTraining(training,vm.TrainingTypeId);
 
-            return RedirectToAction("Success", new {id=trainingId }); /*RedirectToAction("Index");*/
+            
+
+
+            return RedirectToAction("Success", new {id= trainingDb.ID }); /*RedirectToAction("Index");*/
         }
 
         public IActionResult Success(int id)

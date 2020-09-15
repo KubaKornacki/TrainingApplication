@@ -28,5 +28,7 @@ namespace App_v2.Models
 
         public bool Dynamic { get; set; }
 
+        public bool Machine { get; set; }
+
     }
 }
