@@ -9,7 +9,7 @@ namespace App_v2.Models
     {
         public int ID { get; set; }
 
-        public Training Training { get; set; }
+        public Subtraining Subtraining { get; set; }
 
         public Excercise Excercise { get; set; }
 

@@ -20,5 +20,6 @@ namespace App_v2.Models
         public DbSet<PersonExcercise> PeopleExercises { get; set; }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<TrainingExercise> TrainingExercises { get; set; }
+        public DbSet<Subtraining> Subtrainings { get; set; }
     }
 }

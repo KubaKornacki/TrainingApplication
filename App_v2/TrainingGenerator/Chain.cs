@@ -15,7 +15,7 @@ namespace App_v2.TrainingGenerator
             next = chain;
         }
 
-        public abstract List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training);
+        public abstract List<SubtrainingModel> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training);
 
         public void Next(Chain chain)
         {

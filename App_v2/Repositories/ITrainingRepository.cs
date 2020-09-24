@@ -9,7 +9,7 @@ namespace App_v2.Repositories
     public interface ITrainingRepository
     {
 
-        Training CreateTraining(Training training,int trainingType);
+        Training CreateTraining(Training training,int trainingType,int trainingKind);
 
         void UpdateTraining(Training training);
 

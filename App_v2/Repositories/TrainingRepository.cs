@@ -27,11 +27,11 @@ namespace App_v2.Repositories
             
             _db.SaveChanges();
             Training trainingDb= _db.Trainings.OrderBy(x => x.ID).FirstOrDefault();
-            CreateTrainingExcercises(trainingDb,trainingType,trainingKind);
+            CreateSubtraining(trainingDb,trainingType,trainingKind);
             return trainingDb;
         }
 
-        private void CreateTrainingExcercises(Training training,int trainingType,int trainingKind)
+        private void CreateSubtraining(Training training,int trainingType,int trainingKind)
         {
             Form form=_db.Forms.FirstOrDefault(x => x.User == training.AppUser);
             FbwTraining fbwTraining= new FbwTraining();
@@ -42,7 +42,7 @@ namespace App_v2.Repositories
 
             TrainingParameters trainingParameters = new TrainingParameters(training, trainingType, form.GoalID, form.TrainingCategoryID, form.FreeTimeID,trainingKind);
 
-            IEnumerable<TrainingExercise> exercises = fbwTraining.Generate(trainingParameters, _db,training);
+            List<SubtrainingModel> exercises = fbwTraining.Generate(trainingParameters, _db,training);
 
 
         }

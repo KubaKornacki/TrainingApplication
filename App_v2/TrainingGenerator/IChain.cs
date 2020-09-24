@@ -10,6 +10,6 @@ namespace App_v2.TrainingGenerator
     {
         void Next(Chain chain);
 
-        List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training);
+        List<SubtrainingModel> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training);
     }
 }

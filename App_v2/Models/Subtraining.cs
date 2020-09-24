@@ -5,14 +5,12 @@ using System.Threading.Tasks;
 
 namespace App_v2.Models
 {
-    public class Training
+    public class Subtraining
     {
         public int ID { get; set; }
 
-        public string TrainingName { get; set; }
+        public string  Name { get; set; }
 
-        public AppUser AppUser { get; set; }
-
-        public bool Active { get; set; }
+        public Training Training { get; set; }
     }
 }

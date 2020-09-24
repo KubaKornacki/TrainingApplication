@@ -8,7 +8,7 @@ namespace App_v2.TrainingGenerator
 {
     public class PushPullTraining : Chain
     {
-        public override List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training)
+        public override List<SubtrainingModel> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training)
         {
             if (trainingParameters.trainingType == 2)
             {

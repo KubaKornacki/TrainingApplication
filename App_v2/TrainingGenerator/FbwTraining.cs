@@ -8,7 +8,7 @@ namespace App_v2.TrainingGenerator
 {
     public class FbwTraining : Chain
     {
-        public override List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training)
+        public override List<SubtrainingModel> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training)
         {
             if (trainingParameters.trainingType==1)
             {
@@ -16,8 +16,15 @@ namespace App_v2.TrainingGenerator
                 List<TrainingExercise> excercises = new List<TrainingExercise>();
                 List<Excercise> tmp = new List<Excercise>();
                 TrainingExercise trainingExercise = new TrainingExercise();
+                List<SubtrainingModel> subtrainings = new List<SubtrainingModel>();
 
                 //Trening A
+                SubtrainingModel model = new SubtrainingModel();
+                model.TrainingExercises = new List<TrainingExercise>();
+                Subtraining subtraining = new Subtraining();
+                subtraining.Name = "A";
+                subtraining.Training = training;
+                model.Subtraining = subtraining;
                 //klata
                 Excercise excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == 1 && x.Priority==21);
                 trainingExercise.Excercise = excercise;
@@ -63,11 +70,14 @@ namespace App_v2.TrainingGenerator
                 excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == trainingParameters.trainingGoal && tmp.FirstOrDefault(y=>y.PrimaryMuscle==trainingParameters.trainingGoal).Priority<x.Priority &&x.Machine==trainingParameters.trainingKind);
                 trainingExercise.Excercise = excercise;
                 excercises.Add(trainingExercise);
-
                 
+                model.TrainingExercises.AddRange(excercises);
+                subtrainings.Add(model);
+
+                //Trening B
 
 
-                return excercises;
+                return subtrainings;
             }
             else
             {
