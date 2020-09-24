@@ -10,6 +10,6 @@ namespace App_v2.TrainingGenerator
     {
         void Next(Chain chain);
 
-        IEnumerable<TrainingExercise> Generate(TrainingParameters trainingParameters);
+        List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training);
     }
 }

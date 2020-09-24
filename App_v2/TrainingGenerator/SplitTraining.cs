@@ -8,7 +8,7 @@ namespace App_v2.TrainingGenerator
 {
     public class SplitTraining : Chain
     {
-        public override IEnumerable<TrainingExercise> Generate(TrainingParameters trainingParameters)
+        public override List<TrainingExercise> Generate(TrainingParameters trainingParameters, AppDbContext dbContext,Training training)
         {
             if (trainingParameters.trainingType == 3)
             {
@@ -18,7 +18,7 @@ namespace App_v2.TrainingGenerator
             {
                 if (next != null)
                 {
-                    return next.Generate(trainingParameters);
+                    return next.Generate(trainingParameters, dbContext,training);
                 }
                 else
                 {
