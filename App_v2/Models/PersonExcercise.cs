@@ -16,7 +16,6 @@ namespace App_v2.Models
 
         public Excercise Excercise { get; set; }
 
-
         public double Max { get; set; }
 
         public double Progress { get; set; }

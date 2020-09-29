@@ -42,9 +42,49 @@ namespace App_v2.Repositories
 
             TrainingParameters trainingParameters = new TrainingParameters(training, trainingType, form.GoalID, form.TrainingCategoryID, form.FreeTimeID,trainingKind);
 
-            List<SubtrainingModel> exercises = fbwTraining.Generate(trainingParameters, _db,training);
+            List<TrainingExercise> exercises = fbwTraining.Generate(trainingParameters, _db,training);
 
+            List<Subtraining> subtrainings = GenerateSubtrainings(exercises.Select(x => x.Subtraining).Distinct().ToList());
 
+            GenerateExercisesForSubtrainings(exercises, subtrainings);
+
+            GenerateMaxesForExercises(exercises,training.AppUser);
+        }
+
+        public List<Subtraining> GenerateSubtrainings(List<Subtraining> subtrainings)
+        {
+            List<Subtraining> list = new List<Subtraining>();
+            foreach(Subtraining sub in subtrainings)
+            {
+                _db.Subtrainings.Add(sub);
+                _db.SaveChanges();
+                list.Add(_db.Subtrainings.FirstOrDefault(x => x.Training == sub.Training && x.Name == sub.Name));
+            }
+            return list;
+        }
+
+        public void GenerateExercisesForSubtrainings(List<TrainingExercise> exercises, List<Subtraining> subtrainings)
+        {
+            foreach(TrainingExercise exercise in exercises)
+            {
+                exercise.Subtraining = subtrainings.FirstOrDefault(x => x.Name == exercise.Subtraining.Name);
+                _db.TrainingExercises.Add(exercise);
+            }
+            _db.SaveChanges();
+        }
+
+        public void GenerateMaxesForExercises(List<TrainingExercise> excercises,AppUser user)
+        {
+            foreach(TrainingExercise trainingExcercise in excercises)
+            {
+                PersonExcercise personExcercise = new PersonExcercise();
+                personExcercise.Excercise = trainingExcercise.Excercise;
+                personExcercise.Max = trainingExcercise.Weight;
+                personExcercise.Progress = 5.0;
+                personExcercise.AppUser = user;
+                _db.PeopleExercises.Add(personExcercise);
+            }
+            _db.SaveChanges();
         }
 
         public Training GetTraining(Training training)

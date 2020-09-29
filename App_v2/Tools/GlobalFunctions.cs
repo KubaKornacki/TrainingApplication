@@ -27,5 +27,16 @@ namespace App_v2.Tools
             return listItem;
         }
 
+        public static TrainingExercise SetTrainingExercise(Excercise excercise, int reps, int sets, double weight, Subtraining subtraining)
+        {
+            TrainingExercise trainingExercise = new TrainingExercise();
+            trainingExercise.Excercise = excercise;
+            trainingExercise.DateTime = DateTime.Now;
+            trainingExercise.Repeat = reps;
+            trainingExercise.Set = sets;
+            trainingExercise.Weight = weight;
+            trainingExercise.Subtraining = subtraining;
+            return trainingExercise;
+        }
     }
 }
