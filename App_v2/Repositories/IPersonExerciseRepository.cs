@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace App_v2.Repositories
 {
-    interface IPersonExerciseRepository
+    public interface IPersonExerciseRepository
     {
-        IEnumerable<PersonExcercise> GetPersonExercises(AppUser user);
-
         void AddPersonExercise(PersonExcercise personExercise);
 
         void UpdatePersonExercise(PersonExcercise personExcercise);
+
+        PersonExcercise GetPersonExcercise(int id);
+
+        List<PersonExcercise> ListPersonExercises(AppUser user);
 
     }
 }

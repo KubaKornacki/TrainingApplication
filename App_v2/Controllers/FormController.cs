@@ -114,10 +114,10 @@ namespace App_v2.Controllers
 
             Training trainingDb= _trainingRepository.CreateTraining(training,vm.TrainingTypeId,vm.TrainingKindId);
 
-            
 
 
-            return RedirectToAction("Success", new {id= trainingDb.ID }); /*RedirectToAction("Index");*/
+            return RedirectToAction("Records", "Exercise");
+            //return RedirectToAction("Success", new {id= trainingDb.ID }); /*RedirectToAction("Index");*/
         }
 
         public IActionResult Success(int id)
