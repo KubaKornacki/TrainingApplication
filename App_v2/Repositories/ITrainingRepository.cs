@@ -19,5 +19,8 @@ namespace App_v2.Repositories
 
         IEnumerable<Training> ListAllTraining(AppUser appUser);
 
+        IEnumerable<Subtraining> ListSubtrainings(int trainingId);
+
+
     }
 }

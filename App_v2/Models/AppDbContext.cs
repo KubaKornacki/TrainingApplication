@@ -21,5 +21,6 @@ namespace App_v2.Models
         public DbSet<Training> Trainings { get; set; }
         public DbSet<TrainingExercise> TrainingExercises { get; set; }
         public DbSet<Subtraining> Subtrainings { get; set; }
+        public DbSet<HistoryTraining> HistoryTrainings { get; set; }
     }
 }

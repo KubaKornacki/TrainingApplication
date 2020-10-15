@@ -94,12 +94,17 @@ namespace App_v2.Repositories
 
         public IEnumerable<Training> ListAllTraining(AppUser appUser)
         {
-            throw new NotImplementedException();
+            return _db.Trainings.Where(x => x.AppUser == appUser);
         }
 
         public void UpdateTraining(Training training)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Subtraining> ListSubtrainings(int trainingId)
+        {
+            return _db.Subtrainings.Where(x => x.Training.ID == trainingId);
         }
     }
 }
