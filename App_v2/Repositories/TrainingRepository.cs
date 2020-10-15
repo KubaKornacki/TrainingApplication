@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using App_v2.Models;
 using App_v2.TrainingGenerator;
+using Microsoft.EntityFrameworkCore;
 
 namespace App_v2.Repositories
 {
@@ -105,6 +106,27 @@ namespace App_v2.Repositories
         public IEnumerable<Subtraining> ListSubtrainings(int trainingId)
         {
             return _db.Subtrainings.Where(x => x.Training.ID == trainingId);
+        }
+
+        public IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId)
+        {
+            return _db.HistoryTrainings.Include(p => p.TrainingExercise).ThenInclude(x => x.Excercise).Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId);
+        }
+
+        public void AddHistoryTrainings(List<HistoryTraining> historyTraining)
+        {
+            _db.HistoryTrainings.AddRange(historyTraining);
+            _db.SaveChanges();
+        }
+
+        public bool FirstTraining(int subtrainingId)
+        {
+            HistoryTraining historyTraining = _db.HistoryTrainings.FirstOrDefault(x => x.TrainingExercise.Subtraining.ID == subtrainingId);
+
+            if (historyTraining != null)
+                return false;
+            else
+                return true;
         }
     }
 }

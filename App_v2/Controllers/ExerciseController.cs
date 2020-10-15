@@ -39,6 +39,13 @@ namespace App_v2.Controllers
             return View(subtrainings);
         }
 
+        public IActionResult HistoryTrainings(int id)
+        {
+            List<HistoryTraining> historyTrainings = _trainingRepository.ListHistoryTrainings(id).ToList();
+
+            return View(historyTrainings);
+        }
+
         public async Task<IActionResult> Records()
         {
             AppUser appUser = await _userManager.GetUserAsync(User);

@@ -24,8 +24,8 @@
                             <th scope="col">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
                                 <div class="dropdown-menu" style="">
-                                    <a class="dropdown-item" asp-action="" asp-controller="">Podgląd historii</a>
-                                    <a class="dropdown-item" asp-action="" asp-controller="" asp-route-id="">Nowy trening</a>
+                                    <a class="dropdown-item" asp-action="HistoryTrainings" asp-controller="Exercise" asp-route-id="@Model[i].ID">Podgląd historii</a>
+                                    <a class="dropdown-item" asp-action="" asp-controller="" asp-route-id="@Model[i].ID">Nowy trening</a>
                                 </div>
                             </th>
                         </tr>
@@ -37,7 +37,7 @@
                             <th scope="col">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"></a>
                                 <div class="dropdown-menu" style="">
-                                    <a class="dropdown-item" asp-action="" asp-controller="">Podgląd historii</a>
+                                    <a class="dropdown-item" asp-action="HistoryTrainings" asp-controller="Exercise" asp-route-id="@Model[i].ID">Podgląd historii</a>
                                     <a class="dropdown-item" asp-action="" asp-controller="" asp-route-id="">Nowy trening</a>
                                 </div>
                             </th>
