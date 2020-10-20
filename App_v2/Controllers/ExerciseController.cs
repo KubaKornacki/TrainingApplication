@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using App_v2.Models;
 using App_v2.Repositories;
+using App_v2.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace App_v2.Controllers
 {
@@ -73,5 +76,29 @@ namespace App_v2.Controllers
 
             return RedirectToAction("Records");
         }
+
+        public IActionResult TrainingDetails(int id)
+        {
+            List<TrainingExercise> trainingExercises = _trainingRepository.GetSubtraingsExercises(id).ToList();
+
+
+            return View(trainingExercises);
+        }
+
+        public IActionResult AddHistoryTraining(int id)
+        {
+            List<TrainingExercise> trainingExercises = _trainingRepository.GetSubtraingsExercises(id).ToList();
+            List<AddHistoryTrainingViewModel> model = Tools.GlobalFunctions.GenerateHistoryTrainings(trainingExercises);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Test([FromBody] List<SaveHistoryTrainingViewModel> historyTraining)
+        {
+            
+            return RedirectToAction("AddHistoryTraining", 1);
+        }
+
     }
 }

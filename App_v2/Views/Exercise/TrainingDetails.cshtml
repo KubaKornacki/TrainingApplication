@@ -1,0 +1,50 @@
+﻿@model List<App_v2.Models.TrainingExercise>
+
+@{
+    ViewData["Title"] = "Szczegóły treningu";
+}
+
+
+<div class="jumbotron">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <hr />
+    <table class="table table-hover col-md-9">
+        <thead>
+            <tr class="table-active">
+                <th scope="col">Nazwa ćwiczenia</th>
+                <th scope="col">Seria</th>
+                <th scope="col">Ilość powtórzeń</th>
+                <th scope="col">Ciężar(kg)/Czas(s)</th>
+            </tr>
+            @{
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        <tr class="table-light">
+                            <th scope="col">@Model[i].Excercise.Name</th>
+                            <th scope="col">@Model[i].Repeat</th>
+                            <th scope="col">@Model[i].Set</th>
+                            <th scope="col">@Model[i].Weight</th>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-secondary">
+                            <th scope="col">@Model[i].Excercise.Name</th>
+                            <th scope="col">@Model[i].Repeat</th>
+                            <th scope="col">@Model[i].Set</th>
+                            <th scope="col">@Model[i].Weight</th>
+                        </tr>
+                    }
+                }
+            }
+        </thead>
+
+    </table>
+    <div>
+        <a asp-action="Index" asp-controller="Home">Powrót do strony głównej</a>
+    </div>
+
+
+</div>

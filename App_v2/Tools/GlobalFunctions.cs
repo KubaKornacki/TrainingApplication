@@ -1,4 +1,5 @@
 ﻿using App_v2.Models;
+using App_v2.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,30 @@ namespace App_v2.Tools
             trainingExercise.Weight = weight;
             trainingExercise.Subtraining = subtraining;
             return trainingExercise;
+        }
+
+        public static List<AddHistoryTrainingViewModel> GenerateHistoryTrainings(List<TrainingExercise> trainingExercises)
+        {
+            List<AddHistoryTrainingViewModel> viewModels = new List<AddHistoryTrainingViewModel>();
+            foreach(TrainingExercise tex in trainingExercises)
+            {
+                AddHistoryTrainingViewModel model = new AddHistoryTrainingViewModel();
+                //model.HistoryTrainings = new List<HistoryTraining>();
+                model.TrainingExercise = tex;
+                List<HistoryTraining> historyTrainings = new List<HistoryTraining>();
+                for (int i=0;i<tex.Set;i++)
+                {
+                    HistoryTraining ht = new HistoryTraining();
+                    ht.TrainingExercise = tex;
+                    ht.SetN = i + 1;
+                    ht.Repeats = tex.Repeat;
+                    ht.Weight = tex.Weight;
+                    historyTrainings.Add(ht);
+                }
+                model.HistoryTrainings = historyTrainings;
+                viewModels.Add(model);
+            }
+            return viewModels;
         }
     }
 }

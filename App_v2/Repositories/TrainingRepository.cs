@@ -128,5 +128,10 @@ namespace App_v2.Repositories
             else
                 return true;
         }
+
+        public IEnumerable<TrainingExercise> GetSubtraingsExercises(int subtrainingId)
+        {
+            return _db.TrainingExercises.Include(x=>x.Excercise).Where(x => x.Subtraining.ID == subtrainingId);
+        }
     }
 }

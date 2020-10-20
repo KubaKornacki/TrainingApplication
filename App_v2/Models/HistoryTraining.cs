@@ -7,7 +7,6 @@ namespace App_v2.Models
 {
     public class HistoryTraining
     {
-
         public int ID { get; set; }
 
         public DateTime CreateDatetime { get; set; }

@@ -21,6 +21,8 @@ namespace App_v2.Repositories
 
         IEnumerable<Subtraining> ListSubtrainings(int trainingId);
 
+        IEnumerable<TrainingExercise> GetSubtraingsExercises(int subtrainingId);
+
         IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId);
 
         void AddHistoryTrainings(List<HistoryTraining> historyTraining);
