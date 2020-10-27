@@ -30,7 +30,7 @@ namespace App_v2.TrainingGenerator
                 excercises.Add(GlobalFunctions.SetTrainingExercise(excercise, 5, 5, 20.0, subtraining1));
                 tmp.Add(excercises.Last().Excercise);
                 //plecy
-                excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == 2 && x.Priority == 47 &&x.Machine==trainingParameters.trainingKind);
+                excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == 2 && x.Priority == 46 &&x.Machine==trainingParameters.trainingKind);
                 excercises.Add(GlobalFunctions.SetTrainingExercise(excercise, 5, 5, 20.0, subtraining1));
                 tmp.Add(excercises.Last().Excercise);
                 //Barki
@@ -55,7 +55,15 @@ namespace App_v2.TrainingGenerator
                 tmp.Add(excercises.Last().Excercise);
                 //dodatkowe
                 excercise = new Excercise();
-                excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == trainingParameters.trainingGoal && tmp.FirstOrDefault(y=>y.PrimaryMuscle==trainingParameters.trainingGoal).Priority<x.Priority &&x.Machine==trainingParameters.trainingKind);
+                Excercise excerciseTmp = excercises.FirstOrDefault(x => x.Excercise.PrimaryMuscle == trainingParameters.trainingGoal).Excercise;
+                if(excerciseTmp.Machine==true)
+                {
+                    excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == trainingParameters.trainingGoal && tmp.FirstOrDefault(y => y.PrimaryMuscle == trainingParameters.trainingGoal).Priority < x.Priority && x.Machine != trainingParameters.trainingKind);
+                }
+                else
+                {
+                    excercise = dbContext.Excercises.FirstOrDefault(x => x.PrimaryMuscle == trainingParameters.trainingGoal && tmp.FirstOrDefault(y => y.PrimaryMuscle == trainingParameters.trainingGoal).Priority < x.Priority && x.Machine != trainingParameters.trainingKind);
+                }
                 excercises.Add(GlobalFunctions.SetTrainingExercise(excercise, 8, 3, 10.0, subtraining1));
                 tmp.Add(excercises.Last().Excercise);
 

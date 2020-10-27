@@ -1,4 +1,5 @@
 ﻿using App_v2.Models;
+using App_v2.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,13 @@ namespace App_v2.Repositories
 
         IEnumerable<TrainingExercise> GetSubtraingsExercises(int subtrainingId);
 
+        TrainingExercise GetTrainingExercise(int id);
+
         IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId);
 
-        void AddHistoryTrainings(List<HistoryTraining> historyTraining);
+        HistoryTraining GetHistoryTraining(int trainingExcerciseId,int setN, DateTime createDatetime);
+
+        bool AddHistoryTrainings(List<SaveHistoryTrainingViewModel> vm);
 
         bool FirstTraining(int subtrainingId);
 

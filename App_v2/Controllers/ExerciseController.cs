@@ -94,10 +94,11 @@ namespace App_v2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Test([FromBody] List<SaveHistoryTrainingViewModel> historyTraining)
+        public bool SaveHistoryExercise([FromBody]List<SaveHistoryTrainingViewModel> historyTraining)
         {
-            
-            return RedirectToAction("AddHistoryTraining", 1);
+            bool ret=_trainingRepository.AddHistoryTrainings(historyTraining);
+
+            return ret;
         }
 
     }

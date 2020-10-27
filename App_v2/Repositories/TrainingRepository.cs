@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using App_v2.Models;
 using App_v2.TrainingGenerator;
+using App_v2.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace App_v2.Repositories
@@ -27,7 +28,7 @@ namespace App_v2.Repositories
             _db.Trainings.Add(training);
             
             _db.SaveChanges();
-            Training trainingDb= _db.Trainings.OrderBy(x => x.ID).FirstOrDefault();
+            Training trainingDb= _db.Trainings.OrderByDescending(x => x.ID).FirstOrDefault();
             CreateSubtraining(trainingDb,trainingType,trainingKind);
             return trainingDb;
         }
@@ -78,12 +79,16 @@ namespace App_v2.Repositories
         {
             foreach(TrainingExercise trainingExcercise in excercises)
             {
-                PersonExcercise personExcercise = new PersonExcercise();
-                personExcercise.Excercise = trainingExcercise.Excercise;
-                personExcercise.Max = trainingExcercise.Weight;
-                personExcercise.Progress = 5.0;
-                personExcercise.AppUser = user;
-                _db.PeopleExercises.Add(personExcercise);
+                
+                if(_db.PeopleExercises.FirstOrDefault(x => x.Excercise.ID == trainingExcercise.Excercise.ID) == null)
+                {
+                    PersonExcercise personExcercise = new PersonExcercise();
+                    personExcercise.Excercise = trainingExcercise.Excercise;
+                    personExcercise.Max = trainingExcercise.Weight;
+                    personExcercise.Progress = 5.0;
+                    personExcercise.AppUser = user;
+                    _db.PeopleExercises.Add(personExcercise);
+                }
             }
             _db.SaveChanges();
         }
@@ -113,12 +118,6 @@ namespace App_v2.Repositories
             return _db.HistoryTrainings.Include(p => p.TrainingExercise).ThenInclude(x => x.Excercise).Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId);
         }
 
-        public void AddHistoryTrainings(List<HistoryTraining> historyTraining)
-        {
-            _db.HistoryTrainings.AddRange(historyTraining);
-            _db.SaveChanges();
-        }
-
         public bool FirstTraining(int subtrainingId)
         {
             HistoryTraining historyTraining = _db.HistoryTrainings.FirstOrDefault(x => x.TrainingExercise.Subtraining.ID == subtrainingId);
@@ -132,6 +131,56 @@ namespace App_v2.Repositories
         public IEnumerable<TrainingExercise> GetSubtraingsExercises(int subtrainingId)
         {
             return _db.TrainingExercises.Include(x=>x.Excercise).Where(x => x.Subtraining.ID == subtrainingId);
+        }
+
+        public TrainingExercise GetTrainingExercise(int id)
+        {
+           return _db.TrainingExercises.FirstOrDefault(x => x.ID == id);
+        }
+
+        bool ITrainingRepository.AddHistoryTrainings(List<SaveHistoryTrainingViewModel> vm)
+        {
+            try
+            {
+                List<HistoryTraining> historyTrainings = new List<HistoryTraining>();
+                foreach (var element in vm.OrderBy(x=>x.SetN))
+                {
+                    HistoryTraining historyTraining = GetHistoryTraining(element.ExerciseId,element.SetN ,DateTime.Now);
+                    if(historyTraining==null)
+                    {
+                        historyTraining = new HistoryTraining();
+                        historyTraining.TrainingExercise = GetTrainingExercise(element.ExerciseId);
+                        historyTraining.Repeats = element.Repeats;
+                        historyTraining.SetN = element.SetN;
+                        historyTraining.Weight = element.Weight;
+                        historyTraining.CreateDatetime = DateTime.Now;
+                        historyTrainings.Add(historyTraining);
+                    }
+                    else
+                    {
+                        historyTraining.Repeats = element.Repeats;
+                        historyTraining.SetN = element.SetN;
+                        historyTraining.Weight = element.Weight;
+                        _db.SaveChanges();
+                    }
+                }
+                if(historyTrainings!=null && historyTrainings.Count>0)
+                {
+                    _db.HistoryTrainings.AddRange(historyTrainings);
+                    _db.SaveChanges();
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        public HistoryTraining GetHistoryTraining(int trainingExcerciseId, int setN, DateTime createDatetime)
+        {
+            return _db.HistoryTrainings.Include(x=>x.TrainingExercise).FirstOrDefault(x => x.TrainingExercise.ID == trainingExcerciseId && x.CreateDatetime.Date == createDatetime.Date &&x.SetN==setN);
         }
     }
 }
