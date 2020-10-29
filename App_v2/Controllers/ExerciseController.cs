@@ -44,15 +44,21 @@ namespace App_v2.Controllers
 
         public IActionResult HistoryTrainings(int id)
         {
-            List<HistoryTraining> historyTrainings = _trainingRepository.ListHistoryTrainings(id).ToList();
+            //List<HistoryTraining> historyTrainings = _trainingRepository.ListHistoryTrainings(id).ToList();
 
-            return View(historyTrainings);
+            ViewHistoryViewModel vm = new ViewHistoryViewModel(_trainingRepository.ListHistoryTrainingsDates(id).ToList(), id);
+            return View(vm);
+        }
+
+        public IActionResult ViewHistory(int id,DateTime date)
+        {
+            List<HistoryTraining> ht = _trainingRepository.ListHistoryTrainings(id, date).ToList();
+            return View(ht);
         }
 
         public async Task<IActionResult> Records()
         {
             AppUser appUser = await _userManager.GetUserAsync(User);
-
             List <PersonExcercise> maxes= _personExerciseRepository.ListPersonExercises(appUser);
 
 
@@ -85,19 +91,23 @@ namespace App_v2.Controllers
             return View(trainingExercises);
         }
 
-        public IActionResult AddHistoryTraining(int id)
+        public  IActionResult AddHistoryTraining(int id)
         {
+            var userId = _userManager.GetUserId(this.User);
             List<TrainingExercise> trainingExercises = _trainingRepository.GetSubtraingsExercises(id).ToList();
-            List<AddHistoryTrainingViewModel> model = Tools.GlobalFunctions.GenerateHistoryTrainings(trainingExercises);
-
+            List<PersonExcercise> personExcercises = _personExerciseRepository.ListPersonExercises(userId);
+            List<AddHistoryTrainingViewModel> model = Tools.GlobalFunctions.GenerateHistoryTrainings(trainingExercises,personExcercises);
             return View(model);
         }
 
         [HttpPost]
         public bool SaveHistoryExercise([FromBody]List<SaveHistoryTrainingViewModel> historyTraining)
         {
+            var userId = _userManager.GetUserId(this.User);
             bool ret=_trainingRepository.AddHistoryTrainings(historyTraining);
-
+            SaveHistoryTrainingViewModel vm = historyTraining.OrderByDescending(x => x.Weight).ThenByDescending(x=>x.Repeats).FirstOrDefault();
+            TrainingExercise trainingExercise = _trainingRepository.GetTrainingExercise(vm.ExerciseId);
+            _personExerciseRepository.UpdatePersonExercise(trainingExercise.Excercise.ID, vm.Weight,vm.Repeats, userId);
             return ret;
         }
 

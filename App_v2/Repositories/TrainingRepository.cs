@@ -113,10 +113,13 @@ namespace App_v2.Repositories
             return _db.Subtrainings.Where(x => x.Training.ID == trainingId);
         }
 
-        public IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId)
+        public IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId, DateTime date)
         {
-            return _db.HistoryTrainings.Include(p => p.TrainingExercise).ThenInclude(x => x.Excercise).Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId);
+            //List<HistoryTraining> historyTrainings = _db.HistoryTrainings.Include(p => p.TrainingExercise).ThenInclude(x => x.Excercise).Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId && y.CreateDatetime.Date==date.Date).ToList();
+            return _db.HistoryTrainings.Include(p => p.TrainingExercise).ThenInclude(x => x.Excercise).Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId && y.CreateDatetime.Date == date.Date);
         }
+
+
 
         public bool FirstTraining(int subtrainingId)
         {
@@ -135,7 +138,7 @@ namespace App_v2.Repositories
 
         public TrainingExercise GetTrainingExercise(int id)
         {
-           return _db.TrainingExercises.FirstOrDefault(x => x.ID == id);
+           return _db.TrainingExercises.Include(x=>x.Excercise).FirstOrDefault(x => x.ID == id);
         }
 
         bool ITrainingRepository.AddHistoryTrainings(List<SaveHistoryTrainingViewModel> vm)
@@ -181,6 +184,20 @@ namespace App_v2.Repositories
         public HistoryTraining GetHistoryTraining(int trainingExcerciseId, int setN, DateTime createDatetime)
         {
             return _db.HistoryTrainings.Include(x=>x.TrainingExercise).FirstOrDefault(x => x.TrainingExercise.ID == trainingExcerciseId && x.CreateDatetime.Date == createDatetime.Date &&x.SetN==setN);
+        }
+
+        public IEnumerable<DateTime> ListHistoryTrainingsDates(int subtrainingId)
+        {
+            IEnumerable<DateTime> datetimes= _db.HistoryTrainings.Where(y => y.TrainingExercise.Subtraining.ID == subtrainingId).Select(x => x.CreateDatetime);
+            List<DateTime> ret = new List<DateTime>();
+
+            foreach(var dt in datetimes)
+            {
+                ret.Add(dt.Date);
+            }
+
+
+            return ret.Distinct();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using App_v2.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace App_v2.Repositories
@@ -31,6 +32,11 @@ namespace App_v2.Repositories
             return _db.PeopleExercises.Include(p => p.Excercise).Where(x => x.AppUser == user).ToList();
         }
 
+        public List<PersonExcercise> ListPersonExercises(string userId)
+        {
+            return _db.PeopleExercises.Include(p => p.Excercise).Where(x => x.AppUser.Id == userId).ToList();
+        }
+
         public void UpdatePersonExercise(PersonExcercise personExcercise)
         {
 
@@ -45,6 +51,22 @@ namespace App_v2.Repositories
             {
                 _db.PeopleExercises.Update(personExcercise);
             }
+            _db.SaveChanges();
+        }
+
+        public void UpdatePersonExercise(int idExercise, double weight,int reps,string userId)
+        {
+           PersonExcercise pe= _db.PeopleExercises.FirstOrDefault(x => x.Excercise.ID == idExercise && x.AppUser.Id == userId);
+            if(weight<(pe.Max*0.8))
+            {
+                if(pe.Progress-1>=0)
+                pe.Progress--;
+            }
+            else
+            {
+                pe.Max = Math.Round(((weight * reps) * 0.0333) + weight,2);
+            }
+            _db.PeopleExercises.Update(pe);
             _db.SaveChanges();
         }
     }

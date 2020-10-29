@@ -26,7 +26,9 @@ namespace App_v2.Repositories
 
         TrainingExercise GetTrainingExercise(int id);
 
-        IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId);
+        IEnumerable<HistoryTraining> ListHistoryTrainings(int subtrainingId,DateTime date);
+
+        IEnumerable<DateTime> ListHistoryTrainingsDates(int subtrainingId);
 
         HistoryTraining GetHistoryTraining(int trainingExcerciseId,int setN, DateTime createDatetime);
 

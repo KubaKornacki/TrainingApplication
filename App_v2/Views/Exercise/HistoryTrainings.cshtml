@@ -1,4 +1,4 @@
-﻿@model List<App_v2.Models.HistoryTraining>
+﻿@model App_v2.ViewModel.ViewHistoryViewModel
 
 @{
     ViewData["Title"] = "Historia treningów";
@@ -11,30 +11,24 @@
     <table class="table table-hover col-md-9">
         <thead>
             <tr class="table-active">
-                <th scope="col">Nazwa ćwiczenia</th>
-                <th scope="col">Seria</th>
-                <th scope="col">Ilość powtórzeń</th>
-                <th scope="col">Ciężar(kg)/Czas(s)</th>
+                <th scope="col">Data treningu</th>
+                <th scope="col">Akcja</th>
             </tr>
             @{
-                for (int i = 0; i < Model.Count; i++)
+                for (int i = 0; i < Model.DateTimes.Count; i++)
                 {
                     if (i % 2 == 0)
                     {
                         <tr class="table-light">
-                            <th scope="col">@Model[i].TrainingExercise.Excercise.Name</th>
-                            <th scope="col">@Model[i].SetN</th>
-                            <th scope="col">@Model[i].Repeats</th>
-                            <th scope="col">@Model[i].Weight</th>
+                            <th scope="col">@Model.DateTimes[i].ToShortDateString()</th>
+                            <th scope="col">@Html.ActionLink("Podgląd", "ViewHistory", new { id = Model.SubtrainingId, date = Model.DateTimes[i].Date })</th>
                         </tr>
                     }
                     else
                     {
-                        <tr class="table-light">
-                            <th scope="col">@Model[i].TrainingExercise.Excercise.Name</th>
-                            <th scope="col">@Model[i].SetN</th>
-                            <th scope="col">@Model[i].Repeats</th>
-                            <th scope="col">@Model[i].Weight</th>
+                        <tr class="table-secondary">
+                            <th scope="col">@Model.DateTimes[i].ToShortDateString()</th>
+                            <th scope="col">@Html.ActionLink("Podgląd", "ViewHistory", new { id = Model.SubtrainingId, date = Model.DateTimes[i].Date })</th>
                         </tr>
                     }
                 }

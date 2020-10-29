@@ -40,12 +40,14 @@ namespace App_v2.Tools
             return trainingExercise;
         }
 
-        public static List<AddHistoryTrainingViewModel> GenerateHistoryTrainings(List<TrainingExercise> trainingExercises)
+        public static List<AddHistoryTrainingViewModel> GenerateHistoryTrainings(List<TrainingExercise> trainingExercises,List<PersonExcercise> personExcercises)
         {
             List<AddHistoryTrainingViewModel> viewModels = new List<AddHistoryTrainingViewModel>();
             foreach(TrainingExercise tex in trainingExercises)
             {
                 AddHistoryTrainingViewModel model = new AddHistoryTrainingViewModel();
+                double weight = personExcercises.FirstOrDefault(x => x.Excercise.ID == tex.Excercise.ID).Max*0.8;
+                double progress = personExcercises.FirstOrDefault(x => x.Excercise.ID == tex.Excercise.ID).Progress;
                 //model.HistoryTrainings = new List<HistoryTraining>();
                 model.TrainingExercise = tex;
                 List<HistoryTraining> historyTrainings = new List<HistoryTraining>();
@@ -55,7 +57,14 @@ namespace App_v2.Tools
                     ht.TrainingExercise = tex;
                     ht.SetN = i + 1;
                     ht.Repeats = tex.Repeat;
-                    ht.Weight = tex.Weight;
+                    if(weight>0)
+                    {
+                        ht.Weight = Math.Round(weight+progress,2);
+                    }
+                    else
+                    {
+                        ht.Weight = tex.Weight;
+                    }
                     historyTrainings.Add(ht);
                 }
                 model.HistoryTrainings = historyTrainings;

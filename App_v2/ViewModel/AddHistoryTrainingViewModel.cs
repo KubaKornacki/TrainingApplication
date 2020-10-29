@@ -11,7 +11,5 @@ namespace App_v2.ViewModel
         public List<HistoryTraining> HistoryTrainings { get; set; }
 
         public TrainingExercise TrainingExercise { get; set; }
-
-        public int SubtrainingId { get; set; }
     }
 }

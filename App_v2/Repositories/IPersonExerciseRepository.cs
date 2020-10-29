@@ -14,7 +14,10 @@ namespace App_v2.Repositories
 
         PersonExcercise GetPersonExcercise(int id);
 
+        List<PersonExcercise> ListPersonExercises(string userId);
+
         List<PersonExcercise> ListPersonExercises(AppUser user);
 
+        void UpdatePersonExercise(int idExercise,double weight,int reps,string userId);
     }
 }
