@@ -18,6 +18,8 @@ namespace App_v2.Models
 
         public double Max { get; set; }
 
+        public double LastTrainingMax { get; set; }
+
         public double Progress { get; set; }
     }
 }

@@ -66,6 +66,7 @@ namespace App_v2.Repositories
             {
                 pe.Max = Math.Round(((weight * reps) * 0.0333) + weight,2);
             }
+            pe.LastTrainingMax = weight;
             _db.PeopleExercises.Update(pe);
             _db.SaveChanges();
         }

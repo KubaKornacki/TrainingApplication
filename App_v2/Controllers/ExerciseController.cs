@@ -94,9 +94,10 @@ namespace App_v2.Controllers
         public  IActionResult AddHistoryTraining(int id)
         {
             var userId = _userManager.GetUserId(this.User);
+            List<HistoryTraining> historyTrainings = _trainingRepository.ListHistoryTrainings(id, DateTime.Now.Date).ToList();
             List<TrainingExercise> trainingExercises = _trainingRepository.GetSubtraingsExercises(id).ToList();
             List<PersonExcercise> personExcercises = _personExerciseRepository.ListPersonExercises(userId);
-            List<AddHistoryTrainingViewModel> model = Tools.GlobalFunctions.GenerateHistoryTrainings(trainingExercises,personExcercises);
+            List<AddHistoryTrainingViewModel> model = Tools.GlobalFunctions.GenerateHistoryTrainings(trainingExercises,personExcercises,historyTrainings);
             return View(model);
         }
 

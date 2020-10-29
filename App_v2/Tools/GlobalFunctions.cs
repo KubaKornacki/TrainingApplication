@@ -40,31 +40,36 @@ namespace App_v2.Tools
             return trainingExercise;
         }
 
-        public static List<AddHistoryTrainingViewModel> GenerateHistoryTrainings(List<TrainingExercise> trainingExercises,List<PersonExcercise> personExcercises)
+        public static List<AddHistoryTrainingViewModel> GenerateHistoryTrainings(List<TrainingExercise> trainingExercises,List<PersonExcercise> personExcercises,List<HistoryTraining> histories)
         {
             List<AddHistoryTrainingViewModel> viewModels = new List<AddHistoryTrainingViewModel>();
             foreach(TrainingExercise tex in trainingExercises)
             {
                 AddHistoryTrainingViewModel model = new AddHistoryTrainingViewModel();
-                double weight = personExcercises.FirstOrDefault(x => x.Excercise.ID == tex.Excercise.ID).Max*0.8;
+                double weight = personExcercises.FirstOrDefault(x => x.Excercise.ID == tex.Excercise.ID).LastTrainingMax;
                 double progress = personExcercises.FirstOrDefault(x => x.Excercise.ID == tex.Excercise.ID).Progress;
                 //model.HistoryTrainings = new List<HistoryTraining>();
                 model.TrainingExercise = tex;
                 List<HistoryTraining> historyTrainings = new List<HistoryTraining>();
                 for (int i=0;i<tex.Set;i++)
                 {
-                    HistoryTraining ht = new HistoryTraining();
-                    ht.TrainingExercise = tex;
-                    ht.SetN = i + 1;
-                    ht.Repeats = tex.Repeat;
-                    if(weight>0)
+                    HistoryTraining ht = histories.FirstOrDefault(x => x.TrainingExercise.ID == tex.ID &&x.SetN==i+1);
+                    if (ht==null)
                     {
-                        ht.Weight = Math.Round(weight+progress,2);
+                        ht = new HistoryTraining();
+                        ht.TrainingExercise = tex;
+                        ht.SetN = i + 1;
+                        ht.Repeats = tex.Repeat;
+                        if (weight > 0)
+                        {
+                            ht.Weight = Math.Round(weight + progress, 2);
+                        }
+                        else
+                        {
+                            ht.Weight = tex.Weight;
+                        }
                     }
-                    else
-                    {
-                        ht.Weight = tex.Weight;
-                    }
+
                     historyTrainings.Add(ht);
                 }
                 model.HistoryTrainings = historyTrainings;
