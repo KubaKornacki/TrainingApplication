@@ -23,17 +23,17 @@ namespace App_v2.Repositories
             throw new NotImplementedException();
         }
 
-        public Training CreateTraining(Training training,int trainingType,int trainingKind)
+        public Training CreateTraining(Training training,int trainingType,int trainingKind, List<Dict> isolation)
         {
             _db.Trainings.Add(training);
             
             _db.SaveChanges();
             Training trainingDb= _db.Trainings.OrderByDescending(x => x.ID).FirstOrDefault();
-            CreateSubtraining(trainingDb,trainingType,trainingKind);
+            CreateSubtraining(trainingDb,trainingType,trainingKind, isolation);
             return trainingDb;
         }
 
-        private void CreateSubtraining(Training training,int trainingType,int trainingKind)
+        private void CreateSubtraining(Training training,int trainingType,int trainingKind, List<Dict> isolation)
         {
             Form form=_db.Forms.FirstOrDefault(x => x.User == training.AppUser);
             FbwTraining fbwTraining= new FbwTraining();
@@ -42,7 +42,7 @@ namespace App_v2.Repositories
             fbwTraining.SetNext(pushPullTraining);
             pushPullTraining.SetNext(splitTraining);
 
-            TrainingParameters trainingParameters = new TrainingParameters(training, trainingType, form.GoalID, form.TrainingCategoryID, form.FreeTimeID,trainingKind);
+            TrainingParameters trainingParameters = new TrainingParameters(training, trainingType, form.GoalID, form.TrainingCategoryID, form.FreeTimeID,trainingKind,isolation);
 
             List<TrainingExercise> exercises = fbwTraining.Generate(trainingParameters, _db,training);
 

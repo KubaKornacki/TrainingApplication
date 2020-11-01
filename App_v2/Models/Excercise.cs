@@ -25,8 +25,7 @@ namespace App_v2.Models
         [Column(TypeName = "int")]
         public int PrimaryMuscle { get; set; }
 
-
-        public bool Dynamic { get; set; }
+        public bool Isolated { get; set; }
 
         public bool Machine { get; set; }
 

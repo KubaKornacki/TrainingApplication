@@ -112,7 +112,9 @@ namespace App_v2.Controllers
             training.AppUser = appUser;
             training.TrainingName = trainingType + " " + DateTime.Now.ToShortDateString();
 
-            Training trainingDb= _trainingRepository.CreateTraining(training,vm.TrainingTypeId,vm.TrainingKindId);
+            List<Dict> isolation = _dictRepository.GetDictsByName("isolation").ToList();
+
+            Training trainingDb= _trainingRepository.CreateTraining(training,vm.TrainingTypeId,vm.TrainingKindId,isolation);
 
 
 

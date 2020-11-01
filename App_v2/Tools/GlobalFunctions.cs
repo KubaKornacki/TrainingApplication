@@ -1,4 +1,5 @@
 ﻿using App_v2.Models;
+using App_v2.TrainingGenerator;
 using App_v2.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -28,13 +29,23 @@ namespace App_v2.Tools
             return listItem;
         }
 
-        public static TrainingExercise SetTrainingExercise(Excercise excercise, int reps, int sets, double weight, Subtraining subtraining)
+
+        public static TrainingExercise SetTrainingExercise(Excercise excercise,TrainingParameters tp, double weight, Subtraining subtraining)
         {
             TrainingExercise trainingExercise = new TrainingExercise();
             trainingExercise.Excercise = excercise;
             trainingExercise.DateTime = DateTime.Now;
-            trainingExercise.Repeat = reps;
-            trainingExercise.Set = sets;
+            if(excercise.Isolated==true)
+            {
+                trainingExercise.Repeat = tp.isolatedReps;
+                trainingExercise.Set = tp.isolatedSets;
+            }
+            else
+            {
+                trainingExercise.Repeat = tp.Reps;
+                trainingExercise.Set = tp.Sets;
+            }
+
             trainingExercise.Weight = weight;
             trainingExercise.Subtraining = subtraining;
             return trainingExercise;
